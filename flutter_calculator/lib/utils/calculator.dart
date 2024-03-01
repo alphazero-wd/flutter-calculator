@@ -1,5 +1,3 @@
-import 'dart:math';
-
 class Calculator {
   RegExp signRegex = RegExp(r'(\s[\+\-×÷]\s)');
   List<String> tokens = [
@@ -31,6 +29,16 @@ class Calculator {
 
   double calculateResult(String expression) {
     return _calculate(expression, 0).$1;
+  }
+
+  bool checkUnclosedParenthesis(String expression) {
+    int size = expression.length;
+    bool isParenthesisClosed = true;
+    for (int i = 0; i < size; i++) {
+      if (expression[i] == '(') isParenthesisClosed = false;
+      if (expression[i] == ')') isParenthesisClosed = true;
+    }
+    return isParenthesisClosed;
   }
 
   (double, int) _calculate(String expression, int index) {

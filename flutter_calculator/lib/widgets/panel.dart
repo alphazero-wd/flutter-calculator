@@ -13,7 +13,7 @@ class _PanelState extends State<Panel> {
   String expression = '';
   double result = 0;
   Calculator calculator = Calculator();
-  void _appendtoken(String token) {
+  void _onButtonTap(String token) {
     if (token == '=') {
       setState(() {
         result = calculator.calculateResult(expression);
@@ -31,10 +31,19 @@ class _PanelState extends State<Panel> {
         expression[expression.length - 1] == ' ') {
       return;
     }
+    bool cannotPutOperatorAfter =
+        (expression.isEmpty || expression[expression.length - 1] == '(');
+    if (cannotPutOperatorAfter && isSign && token != '-') {
+      return;
+    }
     setState(() {
       if (token == 'AC') {
         expression = '';
         result = 0;
+      } else if (token == '()') {
+        bool isParenthesisClosed =
+            calculator.checkUnclosedParenthesis(expression);
+        expression += isParenthesisClosed ? '(' : ')';
       } else if (expression.isNotEmpty && token == 'CE') {
         bool endWithWhiteSpace = expression[expression.length - 1] == ' ';
         expression = expression.substring(
@@ -42,7 +51,7 @@ class _PanelState extends State<Panel> {
           expression.length - (endWithWhiteSpace ? 3 : 1),
         );
       } else {
-        String whiteSpace = (expression.isNotEmpty && isSign) ? " " : "";
+        String whiteSpace = (!cannotPutOperatorAfter && isSign) ? " " : "";
         expression += whiteSpace + token + whiteSpace;
       }
     });
@@ -71,9 +80,8 @@ class _PanelState extends State<Panel> {
                       expression,
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: (expression.length - 40)
-                            .clamp(-40, -30)
-                            .abs()
+                        fontSize: (40 - expression.length * 2)
+                            .clamp(30, 40)
                             .toDouble(),
                       ),
                     ),
@@ -91,9 +99,8 @@ class _PanelState extends State<Panel> {
                               : result.toString(),
                       style: TextStyle(
                         color: Colors.grey[900],
-                        fontSize: (result.toString().length - 80)
-                            .clamp(-80, -40)
-                            .abs()
+                        fontSize: (80 - result.toString().length * 2)
+                            .clamp(40, 80)
                             .toDouble(),
                         fontWeight: FontWeight.w400,
                       ),
@@ -104,7 +111,7 @@ class _PanelState extends State<Panel> {
             ),
           ),
           Buttons(
-            appendtoken: _appendtoken,
+            onButtonTap: _onButtonTap,
           ),
         ],
       ),

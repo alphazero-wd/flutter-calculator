@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calculator/utils/calculator.dart';
 
 class Buttons extends StatelessWidget {
-  final Function(String token) appendtoken;
+  final Function(String token) onButtonTap;
 
-  Buttons({super.key, required this.appendtoken});
+  Buttons({super.key, required this.onButtonTap});
   final Calculator calculator = Calculator();
 
   @override
@@ -19,7 +19,7 @@ class Buttons extends StatelessWidget {
             bool isSign = calculator.isSign(calculator.tokens[index]);
             return GridTile(
               child: GestureDetector(
-                onTap: () => appendtoken(calculator.tokens[index]),
+                onTap: () => onButtonTap(calculator.tokens[index]),
                 child: Container(
                   width: 80,
                   height: 80,
