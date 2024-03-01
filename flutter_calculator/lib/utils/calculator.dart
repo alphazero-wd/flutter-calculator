@@ -1,6 +1,6 @@
 class Calculator {
   RegExp signRegex = RegExp(r'(\s[\+\-×÷]\s)');
-  List<String> tokens = [
+  List tokens = [
     'AC',
     '()',
     '%',
@@ -39,6 +39,18 @@ class Calculator {
       if (expression[i] == ')') isParenthesisClosed = true;
     }
     return isParenthesisClosed;
+  }
+
+  bool hasTwoConsecutiveOperators(String expression, String tokenToPut) {
+    return isSign(tokenToPut) &&
+        expression.isNotEmpty &&
+        (expression[expression.length - 1] == ' ' ||
+            expression[expression.length - 1] == '-');
+  }
+
+  bool hasInvalidOperatorAfter(String expression, String tokenToPut) {
+    return isSign(tokenToPut) &&
+        (expression.isEmpty || expression[expression.length - 1] == '(');
   }
 
   (double, int) _calculate(String expression, int index) {

@@ -44,12 +44,17 @@ class Buttons extends StatelessWidget {
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      calculator.tokens[index],
-                      style: const TextStyle(
-                        fontSize: 30,
-                      ),
-                    ),
+                    child: calculator.tokens[index] == 'CE'
+                        ? const Icon(
+                            Icons.cancel_presentation_outlined,
+                            size: 30,
+                          )
+                        : Text(
+                            calculator.tokens[index],
+                            style: const TextStyle(
+                              fontSize: 30,
+                            ),
+                          ),
                   ),
                 ),
               ),

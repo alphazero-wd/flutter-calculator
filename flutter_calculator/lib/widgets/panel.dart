@@ -13,48 +13,85 @@ class _PanelState extends State<Panel> {
   String expression = '';
   double result = 0;
   Calculator calculator = Calculator();
-  void _onButtonTap(String token) {
-    if (token == '=') {
-      setState(() {
-        result = calculator.calculateResult(expression);
-        expression = result.isNaN
-            ? ''
-            : result.toString().endsWith('.0')
-                ? result.toStringAsFixed(0)
-                : result.toString();
-      });
-      return;
-    }
-    bool isSign = calculator.isSign(token);
-    if (isSign &&
-        expression.isNotEmpty &&
-        expression[expression.length - 1] == ' ') {
-      return;
-    }
-    bool cannotPutOperatorAfter =
-        (expression.isEmpty || expression[expression.length - 1] == '(');
-    if (cannotPutOperatorAfter && isSign && token != '-') {
-      return;
-    }
+  void _onEqual() {
     setState(() {
-      if (token == 'AC') {
-        expression = '';
-        result = 0;
-      } else if (token == '()') {
-        bool isParenthesisClosed =
-            calculator.checkUnclosedParenthesis(expression);
-        expression += isParenthesisClosed ? '(' : ')';
-      } else if (expression.isNotEmpty && token == 'CE') {
-        bool endWithWhiteSpace = expression[expression.length - 1] == ' ';
-        expression = expression.substring(
-          0,
-          expression.length - (endWithWhiteSpace ? 3 : 1),
-        );
-      } else {
-        String whiteSpace = (!cannotPutOperatorAfter && isSign) ? " " : "";
-        expression += whiteSpace + token + whiteSpace;
-      }
+      result = calculator.calculateResult(expression);
+      expression = result.isNaN
+          ? ''
+          : result.toString().endsWith('.0')
+              ? result.toStringAsFixed(0)
+              : result.toString();
     });
+    return;
+  }
+
+  void _onClearAll() {
+    setState(() {
+      expression = '';
+      result = 0;
+    });
+  }
+
+  void _onParenthesis() {
+    setState(() {
+      bool isParenthesisClosed =
+          calculator.checkUnclosedParenthesis(expression);
+      expression += isParenthesisClosed ? '(' : ')';
+    });
+  }
+
+  void _onRemoveLast() {
+    if (expression.isEmpty) return;
+    setState(() {
+      bool endWithWhiteSpace = expression[expression.length - 1] == ' ';
+      expression = expression.substring(
+        0,
+        expression.length - (endWithWhiteSpace ? 3 : 1),
+      );
+    });
+  }
+
+  void _onAddToken(String token) {
+    setState(() {
+      bool hasInvalidOperatorAfterParenthesis =
+          calculator.hasInvalidOperatorAfter(expression, token);
+      String whiteSpace =
+          (!hasInvalidOperatorAfterParenthesis && calculator.isSign(token))
+              ? " "
+              : "";
+      expression += whiteSpace + token + whiteSpace;
+    });
+  }
+
+  void _onButtonTap(String token) {
+    bool hasTwoConsecutiveOperators =
+        calculator.hasTwoConsecutiveOperators(expression, token);
+    if (hasTwoConsecutiveOperators) return;
+
+    bool hasInvalidOperatorAfter =
+        calculator.hasInvalidOperatorAfter(expression, token);
+
+    if (hasInvalidOperatorAfter && token != '-') {
+      return;
+    }
+
+    switch (token) {
+      case '=':
+        _onEqual();
+        break;
+      case 'AC':
+        _onClearAll();
+        break;
+      case '()':
+        _onParenthesis();
+        break;
+      case 'CE':
+        _onRemoveLast();
+        break;
+      default:
+        _onAddToken(token);
+        break;
+    }
   }
 
   @override
