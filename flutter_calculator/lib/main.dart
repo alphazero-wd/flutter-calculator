@@ -39,8 +39,11 @@ class _AppState extends State<App> {
 
   void _onParenthesis() {
     setState(() {
-      bool isParenthesisClosed = checkIfSign(expression);
-      expression += isParenthesisClosed ? '(' : ')';
+      expression += expression.isNotEmpty &&
+              (checkIsDigit(expression[expression.length - 1]) ||
+                  expression[expression.length - 1] == ')')
+          ? ')'
+          : '(';
     });
   }
 
@@ -56,29 +59,18 @@ class _AppState extends State<App> {
   }
 
   void _onAddToken(String token) {
+    bool hasTwoConsecutiveOperators =
+        checkTwoConsecutiveOperators(expression, token);
+    bool hasSameTokenWithPrevious = checkPreviousToken(expression, token);
+    if (hasTwoConsecutiveOperators || hasSameTokenWithPrevious) return;
+
     setState(() {
-      bool hasInvalidOperatorAfterParenthesis =
-          checkHasInvalidOperatorAfter(expression, token);
-      String whiteSpace =
-          (!hasInvalidOperatorAfterParenthesis && checkIfSign(token))
-              ? " "
-              : "";
+      String whiteSpace = checkToAddWhiteSpace(expression, token) ? ' ' : '';
       expression += whiteSpace + token + whiteSpace;
     });
   }
 
   void _onButtonTap(String token) {
-    bool hasTwoConsecutiveOperators =
-        checkTwoConsecutiveOperators(expression, token);
-    if (hasTwoConsecutiveOperators) return;
-
-    bool hasInvalidOperatorAfter =
-        checkHasInvalidOperatorAfter(expression, token);
-
-    if (hasInvalidOperatorAfter && token != '-') {
-      return;
-    }
-
     switch (token) {
       case '=':
         _onEqual();

@@ -11,12 +11,17 @@ class Calculator {
       String num = '0';
       String sign = '+';
       while (index < expression.length) {
-        if (expression[index].contains(RegExp(r'[0-9]')) ||
+        bool isNegativePrefix = index + 1 < expression.length &&
+            checkIsDigit(expression[index + 1]) &&
+            expression[index] == '-';
+        if (isNegativePrefix) {
+          num = expression[index];
+        } else if (checkIsDigit(expression[index]) ||
             expression[index] == '.') {
           num += expression[index];
         } else if (expression[index] == '%') {
           num = (double.parse(num) * 0.01).toString();
-        } else if (checkIfSign(expression[index])) {
+        } else if (checkIsOperator(expression[index])) {
           _pushToStack(stack, sign, double.parse(num));
           sign = expression[index];
           num = '0';
