@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calculator/utils/calculator.dart';
+import 'package:flutter_calculator/utils/checker.dart';
+import 'package:flutter_calculator/utils/tokens.dart';
 
 class Buttons extends StatelessWidget {
   final Function(String token) onButtonTap;
@@ -14,12 +16,12 @@ class Buttons extends StatelessWidget {
         color: Colors.grey[100],
         child: GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          itemCount: calculator.tokens.length,
+          itemCount: tokens.length,
           itemBuilder: (context, index) {
-            bool isSign = calculator.isSign(calculator.tokens[index]);
+            bool isSign = checkIfSign(tokens[index]);
             return GridTile(
               child: GestureDetector(
-                onTap: () => onButtonTap(calculator.tokens[index]),
+                onTap: () => onButtonTap(tokens[index]),
                 child: Container(
                   width: 80,
                   height: 80,
@@ -38,19 +40,19 @@ class Buttons extends StatelessWidget {
                         offset: const Offset(3, 0),
                       )
                     ],
-                    color: isSign || calculator.tokens[index] == '='
+                    color: isSign || tokens[index] == '='
                         ? Colors.blue[100]
                         : Colors.white,
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: calculator.tokens[index] == 'CE'
+                    child: tokens[index] == 'CE'
                         ? const Icon(
                             Icons.cancel_presentation_outlined,
                             size: 30,
                           )
                         : Text(
-                            calculator.tokens[index],
+                            tokens[index],
                             style: const TextStyle(
                               fontSize: 30,
                             ),

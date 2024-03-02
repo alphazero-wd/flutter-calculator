@@ -1,59 +1,11 @@
+import 'package:flutter_calculator/utils/checker.dart';
+
 class Calculator {
-  RegExp signRegex = RegExp(r'(\s[\+\-×÷]\s)');
-  List tokens = [
-    'AC',
-    '()',
-    '%',
-    '÷',
-    '7',
-    '8',
-    '9',
-    '×',
-    '6',
-    '5',
-    '4',
-    '-',
-    '3',
-    '2',
-    '1',
-    '+',
-    '0',
-    '.',
-    'CE',
-    '=',
-  ];
-
-  bool isSign(String token) {
-    return token == '+' || token == '-' || token == '×' || token == '÷';
-  }
-
-  double calculateResult(String expression) {
+  static double calculateResult(String expression) {
     return _calculate(expression, 0).$1;
   }
 
-  bool checkUnclosedParenthesis(String expression) {
-    int size = expression.length;
-    bool isParenthesisClosed = true;
-    for (int i = 0; i < size; i++) {
-      if (expression[i] == '(') isParenthesisClosed = false;
-      if (expression[i] == ')') isParenthesisClosed = true;
-    }
-    return isParenthesisClosed;
-  }
-
-  bool hasTwoConsecutiveOperators(String expression, String tokenToPut) {
-    return isSign(tokenToPut) &&
-        expression.isNotEmpty &&
-        (expression[expression.length - 1] == ' ' ||
-            expression[expression.length - 1] == '-');
-  }
-
-  bool hasInvalidOperatorAfter(String expression, String tokenToPut) {
-    return isSign(tokenToPut) &&
-        (expression.isEmpty || expression[expression.length - 1] == '(');
-  }
-
-  (double, int) _calculate(String expression, int index) {
+  static (double, int) _calculate(String expression, int index) {
     try {
       List<double> stack = [];
       String num = '0';
@@ -64,7 +16,7 @@ class Calculator {
           num += expression[index];
         } else if (expression[index] == '%') {
           num = (double.parse(num) * 0.01).toString();
-        } else if (isSign(expression[index])) {
+        } else if (checkIfSign(expression[index])) {
           _pushToStack(stack, sign, double.parse(num));
           sign = expression[index];
           num = '0';
@@ -79,13 +31,13 @@ class Calculator {
         index++;
       }
       _pushToStack(stack, sign, double.parse(num));
-      return (stack.reduce((sum, num) => sum + num), expression.length - 1);
+      return (stack.reduce((sum, num) => sum + num), expression.length);
     } catch (error) {
-      return (double.nan, expression.length - 1);
+      return (double.nan, expression.length);
     }
   }
 
-  void _pushToStack(List<double> stack, String sign, double num) {
+  static void _pushToStack(List<double> stack, String sign, double num) {
     switch (sign) {
       case '+':
         stack.add(num);
