@@ -62,7 +62,10 @@ class _AppState extends State<App> {
     bool hasTwoConsecutiveOperators =
         checkTwoConsecutiveOperators(expression, token);
     bool hasSameTokenWithPrevious = checkPreviousToken(expression, token);
-    if (hasTwoConsecutiveOperators || hasSameTokenWithPrevious) return;
+    bool cannotAddPercent = checkCannotAddPercent(expression, token);
+    if (hasTwoConsecutiveOperators ||
+        hasSameTokenWithPrevious ||
+        cannotAddPercent) return;
 
     setState(() {
       String whiteSpace = checkToAddWhiteSpace(expression, token) ? ' ' : '';

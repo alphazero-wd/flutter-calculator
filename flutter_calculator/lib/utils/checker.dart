@@ -25,3 +25,8 @@ bool checkPreviousToken(String expression, String tokenToPut) {
       !checkIsDigit(tokenToPut) &&
       tokenToPut == expression[expression.length - 1];
 }
+
+bool checkCannotAddPercent(String expression, String tokenToPut) {
+  return tokenToPut == '%' &&
+      (expression.isEmpty || !checkIsDigit(expression[expression.length - 1]));
+}
