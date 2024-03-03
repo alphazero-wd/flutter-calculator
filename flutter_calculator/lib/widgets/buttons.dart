@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calculator/utils/calculator.dart';
 import 'package:flutter_calculator/data/tokens.dart';
 import 'package:flutter_calculator/widgets/button.dart';
 
 class Buttons extends StatelessWidget {
   final Function(String token) onButtonTap;
 
-  Buttons({super.key, required this.onButtonTap});
-  final Calculator calculator = Calculator();
+  const Buttons({super.key, required this.onButtonTap});
 
   @override
   Widget build(BuildContext context) {

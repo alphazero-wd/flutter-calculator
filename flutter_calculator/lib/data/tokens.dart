@@ -1,4 +1,4 @@
-List<String> tokens = [
+const List<String> tokens = [
   'AC',
   '()',
   '%',

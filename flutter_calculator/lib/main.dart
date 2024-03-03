@@ -20,7 +20,7 @@ class _AppState extends State<App> {
   double result = 0;
   void _onEqual() {
     setState(() {
-      result = Calculator.calculateResult(expression);
+      result = calculateResult(expression);
       expression = result.isNaN
           ? ''
           : result.toString().endsWith('.0')
@@ -39,11 +39,7 @@ class _AppState extends State<App> {
 
   void _onParenthesis() {
     setState(() {
-      expression += expression.isNotEmpty &&
-              (checkIsDigit(expression[expression.length - 1]) ||
-                  expression[expression.length - 1] == ')')
-          ? ')'
-          : '(';
+      expression += checkToAddClosingParenthesis(expression) ? ')' : '(';
     });
   }
 
@@ -59,17 +55,20 @@ class _AppState extends State<App> {
   }
 
   void _onAddToken(String token) {
-    bool hasTwoConsecutiveOperators =
-        checkTwoConsecutiveOperators(expression, token);
-    bool hasSameTokenWithPrevious = checkPreviousToken(expression, token);
+    bool hasTwoConsecutiveOperators = checkCannotPutOperator(expression, token);
     bool cannotAddPercent = checkCannotAddPercent(expression, token);
+    bool cannotAddDecimalPoint = checkCannotAddDecimalPoint(expression, token);
     if (hasTwoConsecutiveOperators ||
-        hasSameTokenWithPrevious ||
-        cannotAddPercent) return;
+        cannotAddPercent ||
+        cannotAddDecimalPoint) {
+      return;
+    }
 
     setState(() {
       String whiteSpace = checkToAddWhiteSpace(expression, token) ? ' ' : '';
-      expression += whiteSpace + token + whiteSpace;
+      String zeroBeforeDecimalPoint =
+          checkToAddZeroBeforeDecimalPoint(expression, token) ? '0' : '';
+      expression += whiteSpace + zeroBeforeDecimalPoint + token + whiteSpace;
     });
   }
 
