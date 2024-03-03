@@ -13,7 +13,7 @@ jobs:
           distribution: "zulu"
           java-version: "12.x"
           cache: "gradle"
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.1"
           channel: "stable"
