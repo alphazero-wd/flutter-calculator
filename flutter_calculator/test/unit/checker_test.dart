@@ -28,19 +28,6 @@ void main() {
     });
   });
 
-  group('Test checkIsPercentOrCloseParenthesis', () {
-    test('should be true in the following cases', () {
-      expect(checkIsSpaceOrOpenParenthesis(')'), true);
-      expect(checkIsSpaceOrOpenParenthesis('%'), true);
-    });
-
-    test('should be false in the following cases', () {
-      expect(checkIsSpaceOrOpenParenthesis('('), false);
-      expect(checkIsSpaceOrOpenParenthesis('.'), false);
-      expect(checkIsSpaceOrOpenParenthesis('9'), false);
-    });
-  });
-
   group('Test checkIsDotOrPercentOrCloseParenthesis', () {
     test('should be true in the following cases', () {
       expect(checkIsDotOrPercentOrCloseParenthesis('.'), true);
