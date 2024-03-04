@@ -42,6 +42,20 @@ void main() {
     });
   });
 
+  group('Test checkIsUnaryMinus', () {
+    test('should be true in the following cases', () {
+      expect(checkIsUnaryMinus('-8', 0), true);
+      expect(checkIsUnaryMinus('-(2 + 3)', 0), true);
+      expect(checkIsUnaryMinus('(3 + 2) - -(7 + 3)', 10), true);
+      expect(checkIsUnaryMinus('99 - -3', 5), true);
+    });
+
+    test('should be false in the following cases', () {
+      expect(checkIsUnaryMinus('3 - 2', 2), false);
+      expect(checkIsUnaryMinus('3 - (-6 ÷ 4)', 2), false);
+    });
+  });
+
   group('Test checkIsOperator', () {
     test('should be true if the given token is an operator', () {
       expect(checkIsOperator('+'), true);

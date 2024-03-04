@@ -26,7 +26,7 @@ class Panel extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            result.isNaN
+            (result.isNaN || result.isInfinite)
                 ? 'Error'
                 : result.toString().endsWith('.0')
                     ? result.toStringAsFixed(0)

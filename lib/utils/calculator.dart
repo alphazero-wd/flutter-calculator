@@ -10,10 +10,7 @@ double calculateResult(String expression) {
     String num = '0';
     String sign = '+';
     while (index < expression.length) {
-      bool isNegativePrefix = index + 1 < expression.length &&
-          checkIsDigit(expression[index + 1]) &&
-          expression[index] == '-';
-      if (isNegativePrefix) {
+      if (checkIsUnaryMinus(expression, index)) {
         num = expression[index];
       } else if (checkIsDigit(expression[index]) || expression[index] == '.') {
         num += expression[index];
@@ -25,7 +22,11 @@ double calculateResult(String expression) {
         num = '0';
       } else if (expression[index] == '(') {
         (double, int) result = _calculate(expression, index + 1);
-        num = result.$1.toString();
+        if (num == '-') {
+          num += result.$1.toString();
+        } else {
+          num = result.$1.toString();
+        }
         index = result.$2;
       } else if (expression[index] == ')') {
         _pushToStack(stack, sign, double.parse(num));

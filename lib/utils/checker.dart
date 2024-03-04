@@ -6,6 +6,12 @@ bool checkIsSpaceOrOpenParenthesis(String token) {
   return token.contains(RegExp(r'[ \(]'));
 }
 
+bool checkIsUnaryMinus(String expression, int index) {
+  return index + 1 < expression.length &&
+      (checkIsDigit(expression[index + 1]) || expression[index + 1] == '(') &&
+      expression[index] == '-';
+}
+
 bool checkIsDotOrPercentOrCloseParenthesis(String token) {
   return token.contains(RegExp(r'[\.%\)]'));
 }
