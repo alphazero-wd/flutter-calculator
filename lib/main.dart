@@ -21,7 +21,7 @@ class _AppState extends State<App> {
   void _onEqual() {
     setState(() {
       result = calculateResult(expression);
-      expression = result.isNaN
+      expression = (result.isNaN || result.isInfinite)
           ? ''
           : result.toString().endsWith('.0')
               ? result.toStringAsFixed(0)
