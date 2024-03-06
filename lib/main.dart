@@ -100,22 +100,31 @@ class _AppState extends State<App> {
       home: Scaffold(
         body: Column(
           children: [
-            SizedBox(
-              height: 350,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 60,
-                  bottom: 25,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Panel(
-                  expression: expression,
-                  result: result,
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 60,
+                    bottom: 25,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: Panel(
+                    expression: expression,
+                    result: result,
+                  ),
                 ),
               ),
             ),
-            Buttons(onButtonTap: _onButtonTap)
+            Expanded(
+              flex: 2,
+              child: Container(
+                color: Colors.grey[100],
+                child: Buttons(onButtonTap: _onButtonTap),
+              ),
+            )
           ],
         ),
       ),

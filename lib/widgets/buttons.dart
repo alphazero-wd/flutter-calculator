@@ -9,19 +9,16 @@ class Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.grey[100],
-        child: GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          itemCount: tokens.length,
-          itemBuilder: (context, index) {
-            return Button(token: tokens[index], onButtonTap: onButtonTap);
-          },
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-          ),
-        ),
+    return GridView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      itemCount: tokens.length,
+      itemBuilder: (context, index) {
+        return GridTile(
+          child: Button(token: tokens[index], onButtonTap: onButtonTap),
+        );
+      },
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5,
       ),
     );
   }
