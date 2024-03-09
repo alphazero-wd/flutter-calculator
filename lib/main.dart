@@ -95,6 +95,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Roboto'),
       debugShowCheckedModeBanner: false,
       title: "Calox",
       home: Scaffold(
@@ -121,8 +122,16 @@ class _AppState extends State<App> {
             Expanded(
               flex: 2,
               child: Container(
-                color: Colors.grey[100],
-                child: Buttons(onButtonTap: _onButtonTap),
+                height: 500,
+                color: Colors.grey.shade100,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Buttons(onButtonTap: _onButtonTap),
+                    ],
+                  ),
+                ),
               ),
             )
           ],
