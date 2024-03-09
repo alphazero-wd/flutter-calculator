@@ -406,5 +406,51 @@ void main() {
       Text result = find.byKey(const Key('result')).evaluate().single.widget as Text;
       expect(result.data, '-18');
     });
+
+    testWidgets('should calculate correctly a complex expression', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1020, 2400));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(const App());
+      final parenthesesButton = find.byKey(const Key('()'));
+      await tester.tap(parenthesesButton);
+      await tester.tap(parenthesesButton);
+      await tester.tap(find.byKey(const Key('3')));
+      await tester.tap(find.byKey(const Key('.')));
+      await tester.tap(find.byKey(const Key('1')));
+      await tester.tap(find.byKey(const Key('4')));
+      await tester.tap(find.byKey(const Key('+')));
+      await tester.tap(find.byKey(const Key('8')));
+      await tester.tap(find.byKey(const Key('%')));
+      await tester.tap(find.byKey(const Key('%')));
+      await tester.tap(parenthesesButton);
+      await tester.tap(find.byKey(const Key('×')));
+      await tester.tap(parenthesesButton);
+      await tester.tap(find.byKey(const Key('-')));
+      await tester.tap(find.byKey(const Key('5')));
+      await tester.tap(find.byKey(const Key('%')));
+      await tester.tap(find.byKey(const Key('-')));
+      await tester.tap(find.byKey(const Key('3')));
+      await tester.tap(find.byKey(const Key('.')));
+      await tester.tap(find.byKey(const Key('9')));
+      await tester.tap(find.byKey(const Key('2')));
+      await tester.tap(parenthesesButton);
+      await tester.tap(parenthesesButton);
+      await tester.tap(find.byKey(const Key('+')));
+      await tester.tap(find.byKey(const Key('5')));
+      await tester.tap(find.byKey(const Key('.')));
+      await tester.tap(find.byKey(const Key('6')));
+      await tester.tap(find.byKey(const Key('1')));
+      await tester.tap(find.byKey(const Key('÷')));
+      await tester.tap(find.byKey(const Key('3')));
+      await tester.pumpAndSettle();
+      Text expression = find.byKey(const Key('expression')).evaluate().single.widget as Text;
+      expect(expression.data, '((3.14 + 8%%) × (-5% - 3.92)) + 5.61 ÷ 3');
+
+      await tester.tap(find.byKey(const Key('=')));
+      await tester.pumpAndSettle();
+
+      Text result = find.byKey(const Key('result')).evaluate().single.widget as Text;
+      expect(result.data, '-10.598976');
+    });
   });
 }
