@@ -2,6 +2,7 @@ on:
   push:
     paths-ignore:
       - README.md
+      - assets/docs/**
       - .gitignore
       - LICENSE
     branches: ["master"]
