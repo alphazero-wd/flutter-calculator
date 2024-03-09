@@ -1,6 +1,6 @@
 on:
   push:
-    branches: ["project/1_calculator"]
+    branches: ["master"]
 name: Test Calculator app
 jobs:
   build:
