@@ -14,6 +14,7 @@ class Panel extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Text(
             expression,
+            key: const Key('expression'),
             style: TextStyle(
               color: Colors.grey[600],
               fontSize: (40 - expression.length * 2).clamp(30, 40).toDouble(),
@@ -26,15 +27,15 @@ class Panel extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            result.isNaN
+            key: const Key('result'),
+            (result.isNaN || result.isInfinite)
                 ? 'Error'
                 : result.toString().endsWith('.0')
                     ? result.toStringAsFixed(0)
                     : result.toString(),
             style: TextStyle(
               color: Colors.grey[900],
-              fontSize:
-                  (80 - result.toString().length * 2).clamp(40, 80).toDouble(),
+              fontSize: (80 - result.toString().length * 2).clamp(40, 80).toDouble(),
               fontWeight: FontWeight.w400,
             ),
           ),

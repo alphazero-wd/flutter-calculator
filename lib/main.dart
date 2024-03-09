@@ -21,7 +21,7 @@ class _AppState extends State<App> {
   void _onEqual() {
     setState(() {
       result = calculateResult(expression);
-      expression = result.isNaN
+      expression = (result.isNaN || result.isInfinite)
           ? ''
           : result.toString().endsWith('.0')
               ? result.toStringAsFixed(0)
@@ -95,27 +95,45 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Roboto'),
       debugShowCheckedModeBanner: false,
       title: "Calox",
       home: Scaffold(
         body: Column(
           children: [
-            SizedBox(
-              height: 350,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 60,
-                  bottom: 25,
-                  left: 20,
-                  right: 20,
-                ),
-                child: Panel(
-                  expression: expression,
-                  result: result,
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 60,
+                    bottom: 25,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: Panel(
+                    expression: expression,
+                    result: result,
+                  ),
                 ),
               ),
             ),
-            Buttons(onButtonTap: _onButtonTap)
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: 500,
+                color: Colors.grey.shade100,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Buttons(onButtonTap: _onButtonTap),
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

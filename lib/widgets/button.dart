@@ -12,9 +12,6 @@ class Button extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onButtonTap(token),
         child: Container(
-          width: 80,
-          height: 80,
-          margin: const EdgeInsetsDirectional.all(8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
             boxShadow: [
@@ -42,9 +39,7 @@ class Button extends StatelessWidget {
                   )
                 : Text(
                     token,
-                    style: const TextStyle(
-                      fontSize: 30,
-                    ),
+                    style: const TextStyle(fontSize: 30, color: Colors.black87),
                   ),
           ),
         ),
