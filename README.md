@@ -1,16 +1,22 @@
-# flutter_calculator
+# Calox - A simple calculator app
 
-A new Flutter project.
+Calox is a simple calculator app built with Flutter.
+
+![Demo](./assets/demo.png)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+You need to have these tools installed on your machine:
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter SDK
+- Either a physical phone or a phone emulator: Xcode (for MacOS users only) or Android Studio
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Then run
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+flutter pub get
+```
+
+Connect to the physical phone/emulator
+
+Finally, say `flutter run` to start the application.

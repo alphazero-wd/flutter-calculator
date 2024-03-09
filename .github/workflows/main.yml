@@ -1,5 +1,9 @@
 on:
   push:
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - LICENSE
     branches: ["master"]
 name: Test Calculator app
 jobs:
